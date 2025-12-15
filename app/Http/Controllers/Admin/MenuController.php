@@ -41,9 +41,10 @@ class MenuController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('menus', 'public');
-            $validated['image'] = $imagePath;
-        }
+    $path = $request->file('image')->store('menu_images', 'public');
+    $menu->image = $path;
+}
+
 
         $validated['is_available'] = $request->has('is_available');
 
@@ -71,34 +72,42 @@ class MenuController extends Controller
     /**
      * Update the specified menu in storage
      */
-    public function update(Request $request, Menu $menu)
-    {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'name' => 'nullable|string|max:255',
-            'description' => 'required|string',
-            'harga' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category' => 'required|string|max:100',
-            'is_available' => 'boolean',
-        ]);
+    public function update(Request $request, $id)
+{
+    $menu = Menu::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($menu->image && \Storage::disk('public')->exists($menu->image)) {
-                \Storage::disk('public')->delete($menu->image);
-            }
-            $imagePath = $request->file('image')->store('menus', 'public');
-            $validated['image'] = $imagePath;
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+        'harga' => 'required|numeric',
+        'description' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $menu->nama = $request->nama;
+    $menu->category = $request->category;
+    $menu->harga = $request->harga;
+    $menu->description = $request->description;
+    $menu->is_available = $request->has('is_available') ? 1 : 0;
+
+    // 🔥 JIKA UPLOAD GAMBAR BARU
+    if ($request->hasFile('image')) {
+
+        // hapus gambar lama
+        if ($menu->image && Storage::disk('public')->exists($menu->image)) {
+            Storage::disk('public')->delete($menu->image);
         }
 
-        $validated['is_available'] = $request->has('is_available');
-
-        $menu->update($validated);
-
-        return redirect()->route('admin.menus.index')->with('success', 'Menu item updated successfully!');
+        // simpan gambar baru
+        $path = $request->file('image')->store('menu', 'public');
+        $menu->image = $path;
     }
 
+    $menu->save();
+
+    return redirect()->route('admin.menus.index')
+        ->with('success', 'Menu berhasil diperbarui');
+}
     /**
      * Remove the specified menu from storage
      */

@@ -27,14 +27,17 @@
                 @foreach($menus as $menu)
                 <tr>
                     <td>
-                        @if($menu->image)
-                            <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->nama ?? $menu->name }}" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;">
-                        @else
-                            <div style="width: 50px; height: 50px; background: #eee; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #999;">
-                                No Image
-                            </div>
-                        @endif
-                    </td>
+    @if($menu->image)
+        <img 
+            src="{{ asset('storage/'.$menu->image) }}"
+            width="80"
+            style="border-radius:8px; object-fit:cover;"
+        >
+    @else
+        <span class="text-gray-400">No Image</span>
+    @endif
+</td>
+
                     <td><strong>{{ $menu->nama ?? $menu->name }}</strong></td>
                     <td><span class="badge badge-info">{{ $menu->category }}</span></td>
                     <td><strong>Rp {{ number_format($menu->harga ?? $menu->price, 0, ',', '.') }}</strong></td>

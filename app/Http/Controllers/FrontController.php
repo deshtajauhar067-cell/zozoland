@@ -7,6 +7,8 @@ use App\Models\Promo;
 use App\Models\Location;
 use App\Models\Testimonial;
 use App\Models\Settings;
+use Carbon\Carbon;
+
 
 class FrontController extends Controller
 {
@@ -29,27 +31,36 @@ class FrontController extends Controller
         return view('promo', compact('promos'));
     }
 
-  public function location()
+   
+public function location()
 {
-    $days = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
-    $hours = [];
+    // Ambil data settings
+    $quick_address = Settings::getValue('business_address', 'Belum diatur');
+    $maps = Settings::getValue('google_maps_link', '');
+    $store_image = Settings::getValue('store_image', null);
 
-    foreach ($days as $day) {
-        $val = Settings::getValue('operating_hours_' . $day);
-        if ($val) {
-            $hours[] = ucfirst($day) . ': ' . $val;
-        }
-    }
+    // Hari sekarang
+    $day = strtolower(Carbon::now()->format('l')); // monday, tuesday, etc
 
-    $jam_operasional = count($hours) ? implode(' | ', $hours) : null;
+    $is_open_today = Settings::getValue('is_open_' . $day, 'false') === 'true';
+    $open_time = Settings::getValue($day . '_open', '00:00');
+    $close_time = Settings::getValue($day . '_close', '00:00');
 
-    return view('location', [
-        'is_open' => Settings::getValue('is_open') === 'true',
-        'quick_address' => Settings::getValue('quick_address'),
-        'jam_operasional' => $jam_operasional,
-    ]);
+    // Status toko
+    $now = Carbon::now()->format('H:i');
+    $is_open = $is_open_today && ($now >= $open_time && $now <= $close_time);
+
+    // Jam operasional tampil
+    $jam_operasional = ucfirst($day) . ": $open_time - $close_time";
+
+    return view('location', compact(
+        'is_open',
+        'quick_address',
+        'jam_operasional',
+        'maps',
+        'store_image'
+    ));
 }
-
 
 
     public function testimonials()

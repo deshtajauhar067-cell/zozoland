@@ -31,12 +31,47 @@
                 </div>
             </div>
 
+          @if($maps)
+<div style="margin-top:20px;">
+    <iframe
+        src="{{ $maps }}"
+        width="100%"
+        height="300"
+        style="border:0; border-radius:12px;"
+        allowfullscreen
+        loading="lazy">
+    </iframe>
+</div>
+@endif
+
+            
+
         </div>
 
-        {{-- GAMBAR TOKO --}}
-        <div class="card" style="max-width:900px; margin-left:auto; margin-right:auto;">
-            <img src="{{ asset('img/toko.jpg') }}" style="width:100%; border-radius:12px; object-fit:cover;">
-        </div>
+       {{-- GAMBAR TOKO --}}
+<div class="card" style="max-width:900px; margin:auto;">
+    <img 
+        src="{{ $store_image ? asset('storage/'.$store_image) : asset('img/toko.jpg') }}"
+        style="width:100%; border-radius:12px; object-fit:cover;"
+    >
+</div>
+
+
+        {{-- GOOGLE MAPS --}}
+@if($maps)
+    <div style="margin-top:30px; border-radius:12px; overflow:hidden;">
+        <iframe 
+            src="{{ $maps }}"
+            width="100%"
+            height="350"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+@endif
+
 
     </div>
 </div>

@@ -6,12 +6,22 @@
 <div class="card">
     <div class="card-title">📍 Business Location & Operating Hours</div>
 
-    <form action="{{ route('admin.settings.update') }}" method="POST">
+    <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <!-- General Business Information -->
         <div style="margin-bottom: 30px; padding-bottom: 30px; border-bottom: 2px solid #f0f0f0;">
             <h3 style="margin-bottom: 20px; font-size: 18px; color: #333;">Business Information</h3>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+    <label>Store Image</label>
+    <input type="file" name="store_image" class="form-control">
+    
+    @if($settings['store_image'] ?? false)
+        <img src="{{ asset('storage/'.$settings['store_image']) }}"
+             style="margin-top:10px; max-height:150px; border-radius:10px;">
+    @endif
+</div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div class="form-group">
