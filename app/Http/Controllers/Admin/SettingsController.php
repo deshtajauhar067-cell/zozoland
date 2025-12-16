@@ -98,6 +98,15 @@ class SettingsController extends Controller
             Settings::setValue($day . '_close', $validated[$day . '_close']);
         }
 
+<<<<<<< HEAD
+=======
+        if ($request->hasFile('store_image')) {
+    $path = $request->file('store_image')->store('store', 'public');
+    Settings::setValue('store_image', $path);
+}
+
+
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
         return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully!');
     }
 }

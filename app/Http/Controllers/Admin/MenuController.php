@@ -41,9 +41,16 @@ class MenuController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+<<<<<<< HEAD
             $imagePath = $request->file('image')->store('menus', 'public');
             $validated['image'] = $imagePath;
         }
+=======
+    $path = $request->file('image')->store('menu_images', 'public');
+    $menu->image = $path;
+}
+
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
 
         $validated['is_available'] = $request->has('is_available');
 
@@ -71,6 +78,7 @@ class MenuController extends Controller
     /**
      * Update the specified menu in storage
      */
+<<<<<<< HEAD
     public function update(Request $request, Menu $menu)
     {
         $validated = $request->validate([
@@ -99,6 +107,44 @@ class MenuController extends Controller
         return redirect()->route('admin.menus.index')->with('success', 'Menu item updated successfully!');
     }
 
+=======
+    public function update(Request $request, $id)
+{
+    $menu = Menu::findOrFail($id);
+
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'category' => 'required|string|max:255',
+        'harga' => 'required|numeric',
+        'description' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $menu->nama = $request->nama;
+    $menu->category = $request->category;
+    $menu->harga = $request->harga;
+    $menu->description = $request->description;
+    $menu->is_available = $request->has('is_available') ? 1 : 0;
+
+    // 🔥 JIKA UPLOAD GAMBAR BARU
+    if ($request->hasFile('image')) {
+
+        // hapus gambar lama
+        if ($menu->image && Storage::disk('public')->exists($menu->image)) {
+            Storage::disk('public')->delete($menu->image);
+        }
+
+        // simpan gambar baru
+        $path = $request->file('image')->store('menu', 'public');
+        $menu->image = $path;
+    }
+
+    $menu->save();
+
+    return redirect()->route('admin.menus.index')
+        ->with('success', 'Menu berhasil diperbarui');
+}
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
     /**
      * Remove the specified menu from storage
      */

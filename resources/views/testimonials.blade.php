@@ -8,10 +8,17 @@
         <h1 class="text-center" style="font-weight:800; color:#444; margin-bottom:18px;">ZOZOLAND</h1>
 
         <div style="display:flex; gap:12px; justify-content:center; margin-bottom:22px; flex-wrap:wrap;">
+<<<<<<< HEAD
             <div class="header-btn" onclick="openTesti('form1')">Form testimoni pelanggan</div>
 
         </div>
 
+=======
+        <div class="header-btn" onclick="openTesti('form1')">Form testimoni pelanggan</div>
+        </div>
+
+
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
         <h2 class="text-center" style="font-weight:800; margin-bottom:16px;">Kesan Pelanggan Kami</h2>
 
         <div class="testimonial-slideshow" style="max-width:900px; margin:0 auto; position:relative;">
@@ -65,7 +72,10 @@
 </div>
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
 {{-- ========== POPUP 1 ========== --}}
 <div class="popup-overlay" id="popup-form1">
     <div class="popup-box">
@@ -74,7 +84,13 @@
         <h3 style="font-weight:800; margin-bottom:10px;">Form Testimoni Pelanggan</h3>
 
         @if(session('success'))
+<<<<<<< HEAD
             <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:10px;">{{ session('success') }}</div>
+=======
+            <div style="background:#d4edda; color:#155724; padding:10px; border-radius:6px; margin-bottom:10px;">
+                {{ session('success') }}
+            </div>
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
         @endif
 
         <form action="{{ route('testimonials.store') }}" method="POST">

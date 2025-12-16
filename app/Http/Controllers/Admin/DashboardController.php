@@ -45,6 +45,7 @@ class DashboardController extends Controller
      */
     public function updateQuickAccess(Request $request)
     {
+<<<<<<< HEAD
         $validated = $request->validate([
             'is_open' => 'boolean',
             'quick_address' => 'required|string|max:255',
@@ -58,5 +59,26 @@ class DashboardController extends Controller
         }
 
         return redirect()->route('admin.dashboard')->with('success', 'Quick Access settings updated successfully!');
+=======
+      $validated = $request->validate([
+        'is_open' => 'nullable|boolean',
+        'quick_address' => 'required|string|max:255',
+        'featured_promo_id' => 'nullable|exists:promos,id',
+    ]);
+
+    // ✅ FIX checkbox
+    $isOpen = $request->has('is_open');
+
+    Settings::setValue('is_open', $isOpen ? 'true' : 'false');
+    Settings::setValue('quick_address', $validated['quick_address']);
+
+    if (!empty($validated['featured_promo_id'])) {
+        Settings::setValue('featured_promo_id', $validated['featured_promo_id']);
+    }
+
+    return redirect()
+        ->route('admin.dashboard')
+        ->with('success', 'Quick Access settings updated successfully!');
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
     }
 }

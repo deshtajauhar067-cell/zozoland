@@ -265,6 +265,7 @@ footer {
     60%  { transform: scale(0.97); }
     100% { transform: scale(1.03); }
 }
+<<<<<<< HEAD
 /* =========================
    ABOUT PAGE (FIGMA FIX)
    ========================= */
@@ -321,3 +322,5 @@ footer {
         height: 280px;
     }
 }
+=======
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6

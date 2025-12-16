@@ -27,6 +27,7 @@
                 @foreach($menus as $menu)
                 <tr>
                     <td>
+<<<<<<< HEAD
                         @if($menu->image)
                             <img src="{{ asset('storage/' . $menu->image) }}" alt="{{ $menu->nama ?? $menu->name }}" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;">
                         @else
@@ -35,6 +36,19 @@
                             </div>
                         @endif
                     </td>
+=======
+    @if($menu->image)
+        <img 
+            src="{{ asset('storage/'.$menu->image) }}"
+            width="80"
+            style="border-radius:8px; object-fit:cover;"
+        >
+    @else
+        <span class="text-gray-400">No Image</span>
+    @endif
+</td>
+
+>>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
                     <td><strong>{{ $menu->nama ?? $menu->name }}</strong></td>
                     <td><span class="badge badge-info">{{ $menu->category }}</span></td>
                     <td><strong>Rp {{ number_format($menu->harga ?? $menu->price, 0, ',', '.') }}</strong></td>
