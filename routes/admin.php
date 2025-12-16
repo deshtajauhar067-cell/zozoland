@@ -22,8 +22,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::post('/dashboard/quick-access', [DashboardController::class, 'updateQuickAccess'])->name('quick-access.update');
-<<<<<<< HEAD
-=======
+
          Route::get('testimonials', [TestimonialController::class, 'index'])
         ->name('admin.testimonials.index');
 
@@ -31,8 +30,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         ->name('admin.testimonials.visibility');
 
     Route::delete('testimonials/{id}', [TestimonialController::class, 'destroy'])
-        ->name('admin.testimonials.destroy');
->>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
+        ->name('admin.testimonials.destroy'); 
 
         // Menu Management
         Route::resource('menus', MenuController::class);

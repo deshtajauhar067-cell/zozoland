@@ -14,11 +14,6 @@ class Testimonial extends Model
         'email',
         'message',
         'rating',
-<<<<<<< HEAD
-        'is_visible', // 
-    ];
-}
-=======
         'is_visible',
         'category',
     ];
@@ -29,4 +24,3 @@ class Testimonial extends Model
     ];
 }
 
->>>>>>> 0d46fbabf1eb6f7f94be51bbe166b890193439e6
