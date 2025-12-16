@@ -37,7 +37,10 @@ class DashboardController extends Controller
 
         $recent_testimonials = Testimonial::latest()->take(5)->get();
 
-        return view('admin.dashboard.index', compact('stats', 'quick_access', 'featured_promo', 'recent_testimonials'));
+        return view(
+            'admin.dashboard.index',
+            compact('stats', 'quick_access', 'featured_promo', 'recent_testimonials')
+        );
     }
 
     /**
@@ -45,41 +48,25 @@ class DashboardController extends Controller
      */
     public function updateQuickAccess(Request $request)
     {
+        // Validasi
         $validated = $request->validate([
-            'is_open' => 'boolean',
+            'is_open' => 'nullable|boolean',
             'quick_address' => 'required|string|max:255',
             'featured_promo_id' => 'nullable|exists:promos,id',
         ]);
 
-        Settings::setValue('is_open', $validated['is_open'] ? 'true' : 'false');
+        // FIX checkbox (checkbox tidak terkirim kalau tidak dicentang)
+        $isOpen = $request->has('is_open');
+
+        Settings::setValue('is_open', $isOpen ? 'true' : 'false');
         Settings::setValue('quick_address', $validated['quick_address']);
-        if ($validated['featured_promo_id']) {
+
+        if (!empty($validated['featured_promo_id'])) {
             Settings::setValue('featured_promo_id', $validated['featured_promo_id']);
         }
 
-        return redirect()->route('admin.dashboard')->with('success', 'Quick Access settings updated successfully!');
-    }
-
-
-      $validated = $request->validate([
-        'is_open' => 'nullable|boolean',
-        'quick_address' => 'required|string|max:255',
-        'featured_promo_id' => 'nullable|exists:promos,id',
-    ]);
-}
-
-    // ✅ FIX checkbox
-    $isOpen = $request->has('is_open');
-
-    Settings::setValue('is_open', $isOpen ? 'true' : 'false');
-    Settings::setValue('quick_address', $validated['quick_address']);
-
-    if (!empty($validated['featured_promo_id'])) {
-        Settings::setValue('featured_promo_id', $validated['featured_promo_id']);
-    }
-
-    return redirect()
-        ->route('admin.dashboard')
-        ->with('success', 'Quick Access settings updated successfully!');
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', 'Quick Access settings updated successfully!');
     }
 }
